@@ -1,0 +1,87 @@
+# 编码问题
+- 为什么需要编码
+    - 本质上计算机只能识别01代码
+    - 如何用一长串01代码表示复杂信息
+    
+- 编码简史
+    - 二进制
+        - bit：一个0或者1的二进制数字
+        - byte: 八个0或1的二进制数字
+    - 第一阶段：ASCII
+    - 第二阶段：百花齐放，GB2312，GBK，BIG5，Latin1,JIS
+        - Latin1:兼容欧洲大多数语言
+        - 中国：GBXXX
+        - 韩国、台湾：BIG5
+        - 日本：JIS
+        - ANSI-MBCS(Multi-bytes charecter set,多字节字符集)
+    - 第三阶段：Unicode(ISO) 
+    
+# 编码表示方法
+- ASCII-american standard code for information interchange
+     - 所有控制字符（包括回车，删除等）编码在0-31范围以及127
+     - 所有标点符号，英文大小写放在32-126之间
+     - 预留128-255之间位置
+     - 0xxx xxxx 是它的编码形式
+- Latin1
+    - 0-127的所有位置不动，那么可以兼容ASCII，二进制位0xxxx xxxx
+    - 128-255位置全部用完，二进制位1xxx xxxx
+        - 128-159之间为控制字符
+        - 160-255位文字字符
+        - 其中包括了西欧语言、希腊语、泰语、阿拉伯语、希伯来语
+    - 欧元符号
+- GBxxxxxxxxx
+    - GB212
+        - 如果一个字节中第一位为0，那么这就是一个ASCII字符
+        - 如果一个字节中第一位为1，那么这是一个汉字，认定需要2个字节才表示一个编码的文字
+        - 这个码表中包含汉字6763个和非汉字图形字符682个
+        - 还有很多的空间没有用到，索性全部预留
+        - 0xxxxxxx:表示为ASCII字符
+        - 1xxxxxxx：表示为汉字
+    - GBK
+        - 在GB2312基础上添加汉字
+        - 兼任GB2312和ASCII
+        - 0xxxxxxx:表示为ASCII字符
+        - 1xxxxxxx xxxxxxxx：表示汉字
+        
+    - GB18030
+        - 2/4位混编
+        
+# Unicode
+    - 只是一个码表，具体实现没有规定
+    -  0-0x10FFFF来映射这些字符，最多可以容纳1114112个字符
+    - 中文编码范围为4E00-9FCF，其中9FC4-9FCF之间的区域没有使用
+    - 上述区间全部是汉字，不包含全角字符，不包含特殊字符
+    - UTF=UnicodeTransformat
+    - UTF-8
+    
+    - UTF-16,UTF-32
+        - UTF-16 早期UNcode 历史遗留问题
+        - UTF-32 浪费空间
+        
+- UCS-4
+    - UCS=UniversalCharacterSet,通用字符集
+    
+# 常用概念
+    - 编码/解码：由人类可直接读取信息转换成bytes格式的，叫编码
+    - 大尾（BigEndian）和小尾（LittleEndian）
+        - '汉' -> 6C49
+            - 6C49 -> BigEndian
+            - 496C -> LittleEndian
+            
+    - BOM
+        - UTF-8没有字节顺序问题
+        - UTF-16会出现问题
+            - “奎” -> 594E
+            - “乙” -> 4E59
+        - BOM-ByteOrderMark
+            - “ZERO WIDTH NO-BREAK SPACE” -> FEFF, 在UCS中不存在
+            - FEFF -> BigEndian
+            - FFFE -> LittleEndian
+            
+# Python编码问题
+- str
+- bytes
+- bytearray
+
+    
+        
